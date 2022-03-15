@@ -1,0 +1,16 @@
+
+zip -r apache.$BUILD_NUMBER.zip *
+
+aws s3 cp apache.$BUILD_NUMBER.zip s3://balu-bucket/apache/
+
+rm -rf *
+
+aws s3 cp s3://balu-bucket/apache/apache.$BUILD_NUMBER.zip .
+
+unzip apache.$BUILD_NUMBER.zip 
+
+rm -f apache.$BUILD_NUMBER.zip 
+
+ssh root@172.31.15.128 'rm -rf /var/www/html/*'
+
+scp -r * root@172.31.15.128:/var/www/html/
