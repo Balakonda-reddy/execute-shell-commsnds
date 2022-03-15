@@ -1,0 +1,12 @@
+
+/opt/maven/bin/mvn clean package
+
+mv target/sparkjava-hello-world-1.0.war target/spark-java.$BUILD_NUMBER.war
+
+aws s3 cp target/spark-java.$BUILD_NUMBER.war s3://balu-bucket/
+
+rm -rf *
+
+aws s3 cp s3://balu-bucket/spark-java.$BUILD_NUMBER.war .
+
+scp -r * root@172.31.11.94:/opt/tomcat/webapps/
